@@ -2,13 +2,13 @@ import React from 'react';
 
 import Navbar from '../navbar';
 
-const listNav = ['bonjour', 'nouveau menu'];
+const listNav = ['about', 'products'];
 
-const Home = () => (
+const About = () => (
   <div>
     <Navbar listNav={listNav} />
-    <h1>Home</h1>
+    <h1>About</h1>
   </div>
 );
 
-export default Home;
+export default About;
