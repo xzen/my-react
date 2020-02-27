@@ -1,27 +1,7 @@
 import actionTypes from './action-types';
 
 const initialState = {
-  items: [{
-    id: '1',
-    image: 'https://www.stickpng.com/assets/images/5871217c38315b0eebc1da26.png',
-    name: 'Alexa',
-    text: 'C\'est un super produit',
-  }, {
-    id: '2',
-    image: 'https://www.stickpng.com/assets/images/5871217c38315b0eebc1da26.png',
-    name: 'Alexa',
-    text: 'C\'est un super produit',
-  }, {
-    id: '3',
-    image: 'https://www.stickpng.com/assets/images/5871217c38315b0eebc1da26.png',
-    name: 'Alexa',
-    text: 'C\'est un super produit',
-  }, {
-    id: '4',
-    image: 'https://www.stickpng.com/assets/images/5871217c38315b0eebc1da26.png',
-    name: 'Alexa',
-    text: 'C\'est un super produit',
-  }],
+  items: [],
 };
 
 const deleteProduct = (state, action) => ({
@@ -30,10 +10,22 @@ const deleteProduct = (state, action) => ({
   )),
 });
 
+const addProduct = (state, action) => ({
+  items: state.items.concat(action.product),
+});
+
+const loadProducts = (state, action) => ({
+  items: state.items.concat(action.items),
+});
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.DELETE_PRODUCT:
       return deleteProduct(state, action);
+    case actionTypes.ADD_PRODUCT:
+      return addProduct(state, action);
+    case actionTypes.LOAD_PRODUCTS:
+      return loadProducts(state, action);
     default:
       return state;
   }

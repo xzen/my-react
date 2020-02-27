@@ -1,12 +1,10 @@
 import React from 'react';
 
-import Navbar from '../navbar';
-
-const listNav = ['bonjour', 'nouveau menu'];
+import Header from '../header';
 
 const Home = () => (
   <div>
-    <Navbar listNav={listNav} />
+    <Header />
     <h1>Home</h1>
   </div>
 );

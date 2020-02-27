@@ -1,38 +1,79 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
+import axios from 'axios';
 
-import Navbar from '../navbar';
+import { loadProducts, deleteProduct, addProduct } from './actions';
 
-const listNav = ['about', 'products'];
+import Header from '../header';
 
-const Product = ({ image, name, text }) => (
-  <div className="col-4 mb-4">
+const Product = ({ item, dispatch }) => (
+  <div className="col-3 mb-4">
     <div className="card">
-      <img src={image} className="card-img-top" alt="{name}" />
+      <img width="400" src={item.image} className="card-img-top" alt="{name}" />
       <div className="card-body">
-        <h5 className="card-title">{name}</h5>
-        <p className="card-text">{text}</p>
-        <button type="button" className="btn btn-danger btn-sm">Delete</button>
+        <div className="card-body">
+          <h5 className="card-title">{item.name}</h5>
+          <p className="card-text">{item.text}</p>
+        </div>
+        <ul className="list-group list-group-flush">
+          <li className="list-group-item">
+            <h6>{`${item.price} euros`}</h6>
+          </li>
+        </ul>
+        <div className="card-body">
+          <Button
+            variant="success"
+            value="add"
+            block
+            onClick={() => dispatch(addProduct())}
+          >
+            add
+          </Button>
+          <Button
+            variant="danger"
+            value="delete"
+            block
+            onClick={() => dispatch(deleteProduct(item.id))}
+          >
+            delete
+          </Button>
+        </div>
       </div>
     </div>
   </div>
 );
 
-const Products = ({ items }) => (
-  <div>
-    <Navbar listNav={listNav} />
-    <div className="container">
-      <div className="row">
-        {items.map((product) => {
-          const { image, name, text } = product;
+class Products extends Component {
+  componentDidMount() {
+    const { dispatch } = this.props;
 
-          return (<Product image={image} name={name} text={text} />);
-        })}
+    axios.get('http://127.0.0.1:3000/products/list')
+      .then((res) => {
+        console.log(res);
+        dispatch(loadProducts(res.data));
+      });
+  }
+
+  render() {
+    const { items, dispatch } = this.props;
+
+    return (
+      <div>
+        <Header />
+        <div>
+          <div className="container mt-3">
+            <div className="row">
+              {items.map((item) => (
+                <Product dispatch={dispatch} item={item} />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-);
-
+    );
+  }
+}
 
 const mapToProps = (state) => {
   const { items } = state.products;
