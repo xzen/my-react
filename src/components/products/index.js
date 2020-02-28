@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
 
-import { loadProducts, deleteProduct, addProduct } from './actions';
+import { loadProducts, deleteProduct } from './actions';
+import { addProductCaddy } from '../caddy/actions';
 
 import Header from '../header';
 
@@ -26,7 +27,14 @@ const Product = ({ item, dispatch }) => (
             variant="success"
             value="add"
             block
-            onClick={() => dispatch(addProduct())}
+            onClick={() => {
+              axios.post(`http://127.0.0.1:3000/product/${item.id}/caddy/add`, {
+                user_id: '5e58ce815d1156194ed5c6bd',
+              })
+                .then(() => {
+                  dispatch(addProductCaddy(item.id));
+                });
+            }}
           >
             add
           </Button>
@@ -50,7 +58,6 @@ class Products extends Component {
 
     axios.get('http://127.0.0.1:3000/products/list')
       .then((res) => {
-        console.log(res);
         dispatch(loadProducts(res.data));
       });
   }

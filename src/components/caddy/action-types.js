@@ -1,0 +1,4 @@
+export default {
+  LOAD_CADDY: 'LOAD_CADDY',
+  ADD_PRODUCT_CADDY: 'ADD_PRODUCT_CADDY',
+};
